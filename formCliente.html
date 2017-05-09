@@ -1,0 +1,98 @@
+<html>
+<head>
+  <title>Gestionar</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script>
+
+    $(document).ready(function(){
+      $("#respuesta").load("http://cataoso.hol.es/inmobiliaria/guardarCliente.php");
+    });
+
+window.onload = function(){
+  $("#guardarCliente").click(enviar);
+}
+
+
+  function enviar() { 
+  var nombre=$("#nombre").val(); 
+  var telefono=$("#telefono").val(); 
+  var direccion=$("#direccion").val(); 
+  
+
+  $.ajax({  
+  async:true, 
+  type: "POST", 
+  dataType: "html", contentType: "application/x-www-form-urlencoded", 
+  url:"http://cataoso.hol.es/inmobiliaria/guardarCliente.php", 
+  data:"&nombre="+nombre+"&telefono="+telefono+"&direccion="+direccion, beforeSend:inicioEnvio, success:llegadaDatos, 
+  timeout:4000, 
+  error:problemas }); 
+  return false; 
+} 
+
+ function inicioEnvio(datos)
+        {
+            $("#respuesta").text(datos);
+        }
+
+        function llegadaDatos(datos)
+        {
+            $("#respuesta").text(datos);
+                       
+        }
+
+        function problemas()
+        {
+            $("#respuesta").text('Problemas en el servidor.');
+        }
+
+
+
+    </script>
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+       <li class="active"><a href="#">Consultar Reservas</a></li>
+       <li class="active"><a href="#">Realizar Reservas</a></li>
+    </ul>
+  </div>
+</nav>
+<h1>Crear Cliente</h1>
+
+
+ <div class="form-group">
+    <label for="nombre">Nombre:</label>
+    <input type="text" class="form-control" id="nombre" name="nombre">
+  </div>
+
+  <div class="form-group">
+    <label for="telefono">Telefono:</label>
+    <input type="text" class="form-control" id="telefono" name="telefono">
+  </div>
+
+ <div class="form-group">
+    <label for="direccion">Direccion:</label>
+    <input type="text" class="form-control" id="direccion" name="direccion">
+  </div>
+
+<button type="button" id="guardarCliente"  class="btn btn-default">Guardar Cliente</button>
+
+
+<div id="respuesta"> </div>
+
+
+
+
+</body>
+</html>
